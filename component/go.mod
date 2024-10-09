@@ -1,3 +1,3 @@
-module github.com/wasmcloud/wasmcloud/examples/golang/providers/custom-template/component
+module github.com/Mattilsynet/map-cronjob-provider-wc/providers/logger/component
 
 go 1.22.3

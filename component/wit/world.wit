@@ -1,12 +1,6 @@
-package wasmcloud:custom;
+package mattilsynet:logger;
 
 world component {
-  // Import logging for processing data
-  import wasi:logging/logging;
-
-  // Notice here the component has the inverse direction for importing/exporting interfaces
-  // compared to the provider. This allows us to compose the component with the provider, each
-  // import linking up to an export.
-  import wasmcloud:example/system-info;
-  export wasmcloud:example/process-data;
+    export mattilsynet:cronjob/cronjob;
+    import wasi:logging/logging;
 }
