@@ -1,2 +1,2 @@
-custom = "../../wit"
-logging = "https://github.com/WebAssembly/wasi-logging/archive/main.tar.gz"
+cronjob = "../../wit"
+component = "https://github.com/wasmCloud/component-sdk-go/archive/main.tar.gz"

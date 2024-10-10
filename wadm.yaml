@@ -1,7 +1,7 @@
 apiVersion: core.oam.dev/v1beta1
 kind: Application
 metadata:
-  name: custom-template-provider-golang
+  name: cronjob-logger
   annotations:
     version: v0.0.1
     description: 'An application with a provider and component built for extending wasmCloud with custom capabilities'
@@ -10,7 +10,7 @@ spec:
     - name: log-component
       type: component
       properties:
-        image: file://./component/build/log_component_s.wasm
+        image: file://./component/build/logger-component_s.wasm
       traits:
         - type: spreadscaler
           properties:
@@ -31,4 +31,4 @@ spec:
             source_config:
               - name: cron-expression
                 properties:
-                  expression: "5 0 0 0 0"
+                  expression: "5 * * * * *"
