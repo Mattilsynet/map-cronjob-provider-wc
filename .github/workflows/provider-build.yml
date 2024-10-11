@@ -4,9 +4,6 @@ on:
   push:
     branches:
       - master
-    paths:
-      - crates/wash-lib/**
-      - crates/wash-cli/**
 
 permissions:
   contents: read
