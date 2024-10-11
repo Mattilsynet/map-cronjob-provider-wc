@@ -4,6 +4,9 @@ on:
   push:
     tags:
       - 'v*'
+    paths:
+      - crates/wash-lib/**
+      - crates/wash-cli/**
 
 permissions:
   contents: read
@@ -38,7 +41,7 @@ jobs:
           tool: wash-cli@${{ matrix.wash-version }}
       - name: build wash (current)
         if: ${{ matrix.wash-version == 'current' }}
-        run: cargo build -p wash-cli --release
+        run: cargo add wash
       - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
         if: ${{ matrix.wash-version == 'current' }}
         with:
