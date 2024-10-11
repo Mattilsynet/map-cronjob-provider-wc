@@ -1,7 +1,6 @@
 name: cronjob-provider
 
 on:
-  merge_group:
   push:
     branches:
       - master
