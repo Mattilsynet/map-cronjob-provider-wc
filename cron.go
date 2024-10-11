@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"strconv"
 	"strings"
+	"time"
 )
 
 // CronParts stores the parts of a cron expression as integers
@@ -13,12 +15,17 @@ type CronParts struct {
 	Hours   int
 }
 
-func GetCronExpressionInSeconds(cronExpr string) (int, error) {
+func ConvertToTicker(cronExpr string) (*time.Ticker, error) {
+	if cronExpr == "" {
+		return nil, errors.New("expression cannot be empty in cron source config")
+	}
 	cronParts, err := ParseCronExpression(cronExpr)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
-	return ConvertCronToSeconds(cronParts), nil
+	seconds := ConvertCronPartsToSeconds(cronParts)
+	duration := time.Duration(seconds) * time.Second
+	return time.NewTicker(duration), nil
 }
 
 func ParseCronExpression(cronExpr string) (CronParts, error) {
@@ -26,11 +33,19 @@ func ParseCronExpression(cronExpr string) (CronParts, error) {
 	if len(parts) != 3 {
 		return CronParts{}, fmt.Errorf("invalid cron expression format")
 	}
-
 	// Parse each part of the cron expression, handling "*" as a wildcard (-1)
-	seconds := parsePart(parts[0])
-	minutes := parsePart(parts[1])
-	hours := parsePart(parts[2])
+	seconds, err := parsePart(parts[0])
+	if err != nil {
+		return CronParts{}, err
+	}
+	minutes, err := parsePart(parts[1])
+	if err != nil {
+		return CronParts{}, err
+	}
+	hours, err := parsePart(parts[2])
+	if err != nil {
+		return CronParts{}, err
+	}
 
 	return CronParts{
 		Seconds: seconds,
@@ -39,16 +54,16 @@ func ParseCronExpression(cronExpr string) (CronParts, error) {
 	}, nil
 }
 
-func parsePart(part string) int {
+func parsePart(part string) (int, error) {
 	if part == "*" {
-		return -1 // Treat "*" as "every"
+		return -1, nil // Treat "*" as "every"
 	}
 	// Convert string to int safely since we don't need error handling for this task
-	val, _ := strconv.Atoi(part)
-	return val
+	val, err := strconv.Atoi(part)
+	return val, err
 }
 
-func ConvertCronToSeconds(cronParts CronParts) int {
+func ConvertCronPartsToSeconds(cronParts CronParts) int {
 	totalSeconds := 0
 
 	if cronParts.Seconds != -1 {
