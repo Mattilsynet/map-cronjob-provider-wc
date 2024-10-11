@@ -2,8 +2,8 @@ name: cronjob-provider
 
 on:
   push:
-    tags:
-      - 'v*'
+    branches:
+      - master
     paths:
       - crates/wash-lib/**
       - crates/wash-cli/**
@@ -41,7 +41,7 @@ jobs:
           tool: wash-cli@${{ matrix.wash-version }}
       - name: build wash (current)
         if: ${{ matrix.wash-version == 'current' }}
-        run: cargo add wash
+        run: cargo install wash-cli
       - uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2ee8f75cf882
         if: ${{ matrix.wash-version == 'current' }}
         with:
