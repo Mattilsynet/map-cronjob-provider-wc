@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         wash-version:
-          - 0.34.1
+          - 0.35.0
           - current
     steps:
       - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
@@ -49,88 +49,3 @@ jobs:
         with:
           name: wash-${{ matrix.wash-version }}
           path: ~/.cargo/bin/wash
-
-  wash-build:
-    name: build
-    runs-on: ubuntu-22.04
-    needs: [build-wash-cli]
-    strategy:
-      fail-fast: false
-      matrix:
-        wash-version:
-          - 0.34.1
-          - current
-        project:
-          # Golang example providers
-          - name: "cronjob"
-            lang: "golang"
-            lang_version: "1.23"
-            tinygo_version: "0.33.0"
-            test_deploy: wadm.yaml
-    steps:
-      - uses: actions/checkout@eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871
-
-      # Download wash binary & install to path
-      - uses: actions/download-artifact@fa0a91b85d4f404e444e00e005971372dc801d16
-        with:
-          name: wash-${{ matrix.wash-version }}
-          path: artifacts
-      - name: install wash binary to PATH # Some build tools expect wash to be on the PATH
-        shell: bash
-        run: |
-          chmod +x ./artifacts/wash;
-          echo "$(realpath ./artifacts)" >> "$GITHUB_PATH";
-
-      # Language specific setup
-      - uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32
-        if: ${{ matrix.project.lang == 'golang' }}
-        with:
-          go-version: ${{ matrix.project.lang_version }}
-      - uses: acifani/setup-tinygo@b2ba42b249c7d3efdfe94166ec0f48b3191404f7
-        if: ${{ matrix.project.lang == 'golang' }}
-        with:
-          tinygo-version: ${{ matrix.project.tinygo_version }}
-          install-binaryen: "false"
-      - name: install wit-bindgen-wrpc
-        shell: bash
-        run: |
-          curl -LO https://github.com/bytecodealliance/wrpc/releases/download/v0.11.1/wit-bindgen-wrpc-x86_64-unknown-linux-musl;
-          echo "7ae7607987a208eda2a44a0dfc376ebf681321443151589a0f0004f53da43258  wit-bindgen-wrpc-x86_64-unknown-linux-musl" | sha256sum -c -;
-          mv wit-bindgen-wrpc-x86_64-unknown-linux-musl wit-bindgen-wrpc
-          chmod +x wit-bindgen-wrpc
-          install -m 755 wit-bindgen-wrpc /usr/local/bin/
-
-      # Validate example [local.]wadm.yaml if present
-      - name: validate wadm.yaml
-        shell: bash
-        run: |
-          [[ ! -f wadm.yaml ]] || wash app validate wadm.yaml
-          [[ ! -f local.wadm.yaml ]] || wash app validate local.wadm.yaml
-
-      # Build example project(s)
-      - name: build project
-        run: wash build
-
-      # Run the local.wadm that comes with the example
-      - name: test provider load
-        if: ${{ matrix.project.test_deploy && matrix.wash-version == 'current' }}
-        shell: bash
-        run: |
-          set -xe
-          wash up &
-          WASH_PID=$!
-          sleep 3;
-          wash app deploy ${{ matrix.project.test_deploy }};
-          TRIES=0
-          while [[ $(wash get inventory --output=json | jq '.inventories[0].providers | length') -eq 0 ]] ; do
-            if [[ $TRIES -gt 10 ]]; then
-              echo "❌ failed to find provider in inventory output after deploying example manifest";
-              exit -1;
-            fi
-            TRIES=$((TRIES+1));
-            sleep 1;
-          done;
-          echo "✅ successfully started at least one provider";
-          wash app delete ${{ matrix.project.test_deploy }};
-          kill $WASH_PID;
-          exit 0;

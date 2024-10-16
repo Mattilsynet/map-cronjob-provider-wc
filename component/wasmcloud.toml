@@ -5,6 +5,5 @@ version = "0.1.0"
 
 [component]
 wit_world = "component"
-#wasm_target = "wasm32-wasi"
 destination = "build/logger-component_s.wasm"
 build_command = "make FILE=logger-component.wasm WIT_WORLD=component"
