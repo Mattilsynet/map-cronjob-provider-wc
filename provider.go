@@ -54,9 +54,11 @@ func (h *Handler) StartCronJob(osSignal <-chan os.Signal, target string, express
 	return nil
 }
 
-func (h *Handler) RemoveCronJobs() {
+func (h *Handler) RemoveCronJobs(target string) {
 	for key, cronJob := range h.cronJobs {
-		close(cronJob.removeSignal)
-		delete(h.cronJobs, key)
+		if cronJob.target == target {
+			close(cronJob.removeSignal)
+			delete(h.cronJobs, key)
+		}
 	}
 }
