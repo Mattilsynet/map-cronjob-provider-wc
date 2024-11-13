@@ -15,20 +15,12 @@ spec:
         - type: spreadscaler
           properties:
             instances: 1
-    - name: second-log-component
-      type: component
-      properties:
-        image: file://./component/build/logger-component_s.wasm
-      traits:
-        - type: spreadscaler
-          properties:
-            instances: 1
-
 
     - name: cronjob
       type: capability
       properties:
-        image: europe-north1-docker.pkg.dev/artifacts-352708/map/cronjob-provider:0.0.1
+        #        image: europe-north1-docker.pkg.dev/artifacts-352708/map/cronjob-provider:0.0.1
+        image: file://./build/cronjob.par.gz
         id: cronjob
       traits:
         - type: link
@@ -41,13 +33,4 @@ spec:
               - name: cron-expression
                 properties:
                   expression: "2 * *"
-        - type: link
-          properties:
-            target: second-log-component
-            namespace: mattilsynet
-            package: test
-            interfaces: [cron-handler]
-            target_config:
-              - name: cron-expression2
-                properties:
-                  expression: "5 * *"
+        

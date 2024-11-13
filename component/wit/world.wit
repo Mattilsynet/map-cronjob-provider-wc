@@ -2,6 +2,5 @@ package mattilsynet:logger;
 
 world component {
   include wasmcloud:component/imports;
-  import wasi:logging/logging;
   export mattilsynet:cronjob/cronjob;
 }
