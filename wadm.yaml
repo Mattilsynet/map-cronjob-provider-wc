@@ -19,7 +19,6 @@ spec:
     - name: cronjob
       type: capability
       properties:
-        #        image: europe-north1-docker.pkg.dev/artifacts-352708/map/cronjob-provider:0.0.1
         image: file://./build/cronjob.par.gz
         id: cronjob
       traits:
