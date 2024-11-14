@@ -5,9 +5,9 @@ Responsible for triggering a component every X seconds, i.e., provider is the so
 > Disclaimer: This is WIP and an experiment, use in your environment at your own risk.
 
 ## Requires
-tinygo >= 0.33.0 (homebrew)
-wrpc (cargo)
-wasm-tools (cargo)
+tinygo >= 0.33.0 (homebrew)  
+wrpc (cargo)  
+wasm-tools (cargo)  
 wash-cli (homebrew) 
 
 ## Optional
