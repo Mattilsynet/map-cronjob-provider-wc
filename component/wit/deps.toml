@@ -1,2 +1,2 @@
 cronjob = "../../wit"
-component = "https://github.com/wasmCloud/component-sdk-go/archive/main.tar.gz"
+component = "https://github.com/wasmCloud/component-sdk-go/archive/v0.0.3.tar.gz"
