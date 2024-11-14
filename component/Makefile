@@ -10,8 +10,10 @@ WIT_WORLD ?= component
 OUTPUT_FILE := $(OUTPUT_DIR)/$(FILE)
 
 # Default rule to build the project
-all: build-project
+all: gen-files build-project
 
+gen-files: $(OUTPUT_DIR)
+	mkdir -p gen && go generate ./...
 # Ensure the output directory exists, then build with TinyGo
 build-project: $(OUTPUT_DIR)
 	tinygo build -o $(OUTPUT_FILE) -target $(TARGET) --wit-package ./wit --wit-world $(WIT_WORLD)
