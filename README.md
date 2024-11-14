@@ -1,6 +1,7 @@
 # map-cronjob-provider-wc
+### Disclaimer: This is WIP and an experiment, use in your environment at your own risk.
 
-## Responsible for triggering a component every X seconds, i.e., provider is the source and component is the target
+### Responsible for triggering a component every X seconds, i.e., provider is the source and component is the target
 
 ## Requires
 tinygo >= 0.33.0   
