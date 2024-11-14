@@ -16,8 +16,6 @@ wit-deps
 ## How to get started
 1. `wash build` in root  
 2. `cd component`
-3. `mkdir gen/`
-4. `go generate ./...`
 3. `wash build`  
 4. Terminal 1: `wash up` 
 5. Terminal 2: In root of project: `wash app deploy wadm.yaml --replace`  
