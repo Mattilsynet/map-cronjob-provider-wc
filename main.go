@@ -64,7 +64,7 @@ func handleNewSourceLink(handler *Handler, link provider.InterfaceLinkDefinition
 
 func handleDelSourceLinks(handler *Handler, link provider.InterfaceLinkDefinition) error {
 	handler.provider.Logger.Info("Handling del source link", "link", link)
-	handler.RemoveCronJobs(link.Target)
+	handler.RemoveCronJob(link.Target)
 	delete(handler.linkedTo, link.SourceID)
 	return nil
 }
