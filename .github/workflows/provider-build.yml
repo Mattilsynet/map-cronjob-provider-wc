@@ -2,8 +2,8 @@ name: cronjob-provider
 
 on:
   push:
-    branches:
-      - master
+    target:
+      - 'v*'
 jobs:
   wash-build:
     runs-on: ubuntu-latest
