@@ -23,9 +23,9 @@ func New() Handler {
 
 func (h *Handler) AddCronJob(target string, expression string) error {
 	cron := cron.New()
+	client := h.provider.OutgoingRpcClient(target)
 	_, err := cron.AddFunc(expression,
 		func() {
-			client := h.provider.OutgoingRpcClient(target)
 			cronJobComponent.CronHandler(context.TODO(), client)
 		},
 	)
