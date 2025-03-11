@@ -41,6 +41,11 @@ jobs:
         shell: bash
         run: |
           go generate ./...
+      - name: mkdir gen
+        shell: bash
+        run: |
+          mkdir gen
+        working-directory: component
       - name: generate go files, component
         shell: bash
         run: |
