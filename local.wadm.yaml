@@ -19,7 +19,7 @@ spec:
     - name: cronjob
       type: capability
       properties:
-        image: file://./build/cronjob.par.gz
+        image: file://./build/map-cronjob-provider-wc.par.gz
         id: cronjob
       traits:
         - type: link
