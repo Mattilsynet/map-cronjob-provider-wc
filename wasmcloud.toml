@@ -6,4 +6,4 @@ version = "0.1.0"
 
 [provider]
 vendor = "mattilsynet"
-bin_name = "cronjob"
+bin_name = "map-cronjob-provider-wc"
