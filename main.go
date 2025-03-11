@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"slices"
 	"syscall"
 
 	"go.wasmcloud.dev/provider"
@@ -27,10 +28,13 @@ func run() error {
 			return handleHealthCheck(&cronHandler)
 		}),
 		provider.SourceLinkPut(func(link provider.InterfaceLinkDefinition) error {
-			return handleNewSourceLink(&cronHandler, link, signalCh)
+			return handleNewSourceLink(&cronHandler, link)
 		}),
 		provider.SourceLinkDel(func(link provider.InterfaceLinkDefinition) error {
 			return handleDelSourceLinks(&cronHandler, link)
+		}),
+		provider.Shutdown(func() error {
+			return handleShutdown(&cronHandler)
 		}),
 	)
 	if err != nil {
@@ -55,22 +59,33 @@ func handleHealthCheck(_ *Handler) string {
 	return "provider healthy"
 }
 
-func handleNewSourceLink(handler *Handler, link provider.InterfaceLinkDefinition, signalCh chan os.Signal) error {
+func handleNewSourceLink(handler *Handler, link provider.InterfaceLinkDefinition) error {
 	handler.provider.Logger.Info("Handling new source link", "link", link)
-	handler.StartCronJob(signalCh, link.Target, link.TargetConfig["expression"])
-	handler.linkedTo[link.Target] = link.SourceConfig
+	if !slices.Contains(link.Interfaces, "cron-handler") {
+		handler.provider.Logger.Error("Invalid source link", "error", "source link is not a cron handler")
+	}
+
+	handler.linkedTo[link.Target] = link.TargetConfig
+	expression := link.TargetConfig["expression"]
+	err := handler.AddCronJob(link.Target, expression)
+	if err != nil {
+		handler.provider.Logger.Error("Failed to add cron job", "error", err)
+		return err
+	}
+	handler.StartCronjob(link.Target)
 	return nil
 }
 
 func handleDelSourceLinks(handler *Handler, link provider.InterfaceLinkDefinition) error {
 	handler.provider.Logger.Info("Handling del source link", "link", link)
-	handler.RemoveCronJob(link.Target)
 	delete(handler.linkedTo, link.SourceID)
+	handler.RemoveCronJob(link.Target)
 	return nil
 }
 
 func handleShutdown(handler *Handler) error {
 	handler.provider.Logger.Info("Handling shutdown")
+	handler.Shutdown()
 	clear(handler.linkedTo)
 	return nil
 }

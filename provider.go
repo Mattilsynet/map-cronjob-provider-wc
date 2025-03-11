@@ -1,63 +1,55 @@
 package main
 
 import (
-	"os"
-	"time"
+	"context"
 
-	// cronJobComponent "github.com/Mattilsynet/map-cronjob-provider-wc/bindings/mattilsynet/cronjob/cronjob"
+	cronJobComponent "github.com/Mattilsynet/map-cronjob-provider-wc/bindings/mattilsynet/cronjob/cronjob"
+	"github.com/robfig/cron/v3"
 	sdk "go.wasmcloud.dev/provider"
 )
 
-type CronJob struct {
-	target       string
-	ticker       *time.Ticker
-	removeSignal chan struct{}
-}
 type Handler struct {
 	provider *sdk.WasmcloudProvider
 	linkedTo map[string]map[string]string
-	cronJobs map[string]*CronJob
+	cron     map[string]*cron.Cron
 }
 
 func New() Handler {
 	return Handler{
 		linkedTo: make(map[string]map[string]string),
-		cronJobs: make(map[string]*CronJob),
+		cron:     make(map[string]*cron.Cron),
 	}
 }
 
-func (h *Handler) StartCronJob(osSignal <-chan os.Signal, target string, expression string) error {
-	// ticker, err := ConvertToTicker(expression)
-	// if err != nil {
-	// 	return err
-	// }
-	// cronjob := &CronJob{
-	// 	target:       target,
-	// 	removeSignal: make(chan struct{}),
-	// 	ticker:       ticker,
-	// }
-	// h.cronJobs[target] = cronjob
-	// go func(osSignal <-chan os.Signal, cronjob *CronJob) {
-	// 	for {
-	// 		select {
-	// 		case <-osSignal:
-	// 			return
-	// 		case <-cronjob.removeSignal:
-	// 			return
-	// 		case <-cronjob.ticker.C:
-	// 			client := h.provider.OutgoingRpcClient(cronjob.target)
-	// 			cronJobComponent.CronHandler(context.TODO(), client)
-	// 		}
-	// 	}
-	// }(osSignal, cronjob)
+func (h *Handler) AddCronJob(target string, expression string) error {
+	cron := cron.New()
+	_, err := cron.AddFunc(expression,
+		func() {
+			client := h.provider.OutgoingRpcClient(target)
+			cronJobComponent.CronHandler(context.TODO(), client)
+		},
+	)
+	if err != nil {
+		return err
+	}
+	h.cron[target] = cron
 	return nil
 }
 
+func (h *Handler) StartCronjob(target string) {
+	h.cron[target].Start()
+}
+
+func (h *Handler) StopCronJob(target string) {
+	h.cron[target].Stop()
+}
+
 func (h *Handler) RemoveCronJob(target string) {
-	for key, cronJob := range h.cronJobs {
-		if cronJob.target == target {
-			close(cronJob.removeSignal)
-			delete(h.cronJobs, key)
-		}
+	h.cron[target] = nil
+}
+
+func (h *Handler) Shutdown() {
+	for target := range h.cron {
+		h.StopCronJob(target)
 	}
 }

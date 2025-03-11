@@ -29,7 +29,7 @@ spec:
             package: test
             interfaces: [cron-handler]
             target_config:
-              - name: cron-expression
+              - name: log-component-cron-expression
                 properties:
-                  expression: "2 * *"
+                  expression: "@every 2s"
         
