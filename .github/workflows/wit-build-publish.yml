@@ -1,0 +1,36 @@
+name: publish wit
+
+on:
+  push:
+    target:
+      - 'v*'
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: 'write'
+      packages: 'write'
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+      - name: install wash tools
+        uses: taiki-e/install-action@v2
+        with:
+          tool: wasm-tools@1.225.0, wash-cli
+      - name: Setup registry 
+        env:
+          WASH_REG_USER: ${{ github.actor }}
+          WASH_REG_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          cat << EOF > package_config.toml
+          [namespace_registries]
+          mattilsynet = "ghcr.io"
+
+          [registry."ghcr.io".oci]
+          auth = { username = "${WASH_REG_USER}", password = "${WASH_REG_PASSWORD}"}
+          EOF
+          echo "WASH_PACKAGE_CONFIG_FILE=$(realpath package_config.toml)" >> $GITHUB_ENV
+      - name: build wit
+        run: wash wit build
+      - name: publish wit
+        run: wash wit publish *.wasm

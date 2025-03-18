@@ -1,0 +1,5 @@
+[metadata]
+categories = ["cron"]
+description = "cronjob provider for wasmcloud components"
+license = "MIT"
+repository = "https://github.com/Mattilsynet/map-cronjob-provider-wc"
