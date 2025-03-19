@@ -2,16 +2,16 @@ name: cronjob-provider
 
 on:
   push:
-    target:
-      - 'v*'
+    tags:
+      - "v*"
 jobs:
   wash-build:
     runs-on: ubuntu-latest
     env:
       providername: map-cronjob-provider-wc
     permissions:
-      contents: 'write'
-      packages: 'write'
+      contents: "write"
+      packages: "write"
       attestations: write
       id-token: write
     steps:
@@ -20,12 +20,12 @@ jobs:
       - name: install go
         uses: actions/setup-go@v5
         with:
-          go-version: '1.23.2'
+          go-version: "1.23.2"
       - name: install tinygo
         uses: acifani/setup-tinygo@v2
         with:
-          tinygo-version: '0.33.0'
-          install-binaryen: 'false'
+          tinygo-version: "0.33.0"
+          install-binaryen: "false"
       - name: install wash tools
         uses: taiki-e/install-action@v2
         with:
@@ -95,7 +95,6 @@ jobs:
           ls build/
           echo echo user ${{github.repository_owner}}
 
-          
       - name: publish package to github repository
         env:
           WASH_REG_USER: ${{ github.actor }}
@@ -127,3 +126,5 @@ jobs:
           asset_path: ./${{ env.providername }}.tar.gz # Path to your file
           asset_name: ${{ env.providername }}
           asset_content_type: application/gzip
+      - name: wit publish
+        uses: ./wit-build-publish.yml
