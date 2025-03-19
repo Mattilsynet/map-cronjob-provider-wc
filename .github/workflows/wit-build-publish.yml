@@ -2,13 +2,14 @@ name: publish wit
 
 on:
   workflow_call:
- 
+
 jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: 'write'
-      packages: 'write'
+      contents: "write"
+      packages: "write"
+      id-token: "write"
     steps:
       - name: checkout
         uses: actions/checkout@v4
@@ -16,7 +17,7 @@ jobs:
         uses: taiki-e/install-action@v2
         with:
           tool: wasm-tools@1.225.0, wash-cli
-      - name: Setup registry 
+      - name: Setup registry
         env:
           WASH_REG_USER: ${{ github.actor }}
           WASH_REG_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
