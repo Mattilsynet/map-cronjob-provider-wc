@@ -129,6 +129,6 @@ jobs:
   #         asset_name: ${{ env.providername }}
   #         asset_content_type: application/gzip
   publish-wit:
-    needs: wash-build
+    # needs: wash-build
     name: wit publish
     uses: ./.github/workflows/wit-build-publish.yml
