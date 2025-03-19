@@ -132,10 +132,11 @@ jobs:
         env:
           WASH_REG_USER: ${{ github.actor }}
           WASH_REG_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
         run: |
           cat << EOF > package_config.toml
           [namespace_registries]
-          Mattilsynet = "ghcr.io"
+          mattilsynet = "ghcr.io"
 
           [registry."ghcr.io".oci]
           auth = { username = "${WASH_REG_USER}", password = "${WASH_REG_PASSWORD}"}
