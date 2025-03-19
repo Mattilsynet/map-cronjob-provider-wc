@@ -135,7 +135,7 @@ jobs:
         run: |
           cat << EOF > package_config.toml
           [namespace_registries]
-          mattilsynet = "ghcr.io"
+          Mattilsynet = "ghcr.io"
 
           [registry."ghcr.io".oci]
           auth = { username = "${WASH_REG_USER}", password = "${WASH_REG_PASSWORD}"}
