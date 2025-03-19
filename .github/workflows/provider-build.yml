@@ -127,4 +127,4 @@ jobs:
           asset_name: ${{ env.providername }}
           asset_content_type: application/gzip
       - name: wit publish
-        uses: ./wit-build-publish.yml
+        uses: ./.github/workflows/wit-build-publish.yml
