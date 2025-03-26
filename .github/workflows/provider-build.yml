@@ -69,7 +69,7 @@ jobs:
       - name: wash par insert mac binary
         shell: bash
         run: |
-          wash par insert ./build/${{env.providername}}.par.gz ./darwin --arch aarch64-macos
+          wash par insert ./build/${{env.providername}}.par.gz --binary ./darwin --arch aarch64-macos
       - name: wash build test-component
         shell: bash
         run: |
