@@ -65,7 +65,7 @@ jobs:
       - name: go crosscompile for (darmin, aarch64) aarch64-macos
         shell: bash
         run: |
-          GOOS=darwin GOARCH=arm64 go build -o darwin main.go provider.go 
+          GOOS=darwin GOARCH=arm64 go build -o darwin main.go provider.go
       - name: wash par insert mac binary
         shell: bash
         run: |

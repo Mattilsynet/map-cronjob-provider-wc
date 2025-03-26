@@ -19,6 +19,7 @@ spec:
     - name: cronjob
       type: capability
       properties:
+        #image: ghcr.io/mattilsynet/map-cronjob-provider-wc:v0.0.17
         image: file://./build/map-cronjob-provider-wc.par.gz
         id: cronjob
       traits:

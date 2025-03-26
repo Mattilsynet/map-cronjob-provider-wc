@@ -19,7 +19,6 @@ func main() {
 }
 
 func run() error {
-	// Initialize the provider with callbacks to track linked components
 	providerCh := make(chan error, 1)
 	signalCh := make(chan os.Signal, 1)
 	cronHandler := New()
