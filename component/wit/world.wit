@@ -2,5 +2,5 @@ package mattilsynet:logger;
 
 world component {
   include wasmcloud:component-go/imports@0.1.0;
-  export mattilsynet:cronjob/cronjob;
+  export mattilsynet:cronjob/cronjob@0.0.1;
 }
