@@ -33,7 +33,7 @@ If you'd like to test this provider together with a working component, then clon
 tinygo >= 0.33.0 (`go install github.com/tinygo-org/tinygo@latest`)  
 wrpc (`cargo install wrpc`)  
 wasm-tools (`cargo install wasm-tools`)  
-wash-cli (`cargo install wash`) 
+wash-cli (`cargo install wash`)   
 wkg (`cargo install wkg`)
 
 ## Quick start
