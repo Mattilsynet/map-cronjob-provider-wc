@@ -10,12 +10,12 @@ There are [two packages](https://github.com/orgs/Mattilsynet/packages?repo_name=
 2. `cronjob:{m:m:p}`  
 
 First is the provider you'll link to from your Wadm manifest    
-Second is the Wit package `wash wit fetch` will use to fetch dependencies in your /wit/deps folder as part of your `wash build` command    
+Second is the Wit package `wash wit fetch` will use to fetch dependencies in your `/wit/deps` folder as part of your `wash build` command    
 
 # How to use the cronjob provider in your application
 
 ## WADM
-Add the yaml-snippet underneath to your wadm.yaml or check out full example in [local.wadm.yaml](./local.wadm.yaml)
+Add the yaml-snippet underneath to your `wadm.yaml` or check out full example in [local.wadm.yaml](./local.wadm.yaml)
 
 ```yaml
 - name: cronjob
@@ -32,11 +32,11 @@ Add the yaml-snippet underneath to your wadm.yaml or check out full example in [
             source_config:
               - name: log-component-cron-expression
                 properties:
-                  expression: "@every 2s"    
+                  expression: "@every 2s"  # <--- This is what you're looking for!  
 ```
 
-Replace "expression" with examples from: [pkg.go.dev/github.com/robfig/cron](https://pkg.go.dev/github.com/robfig/cron) to suit your own cron needs, e.g.,  
-| **Description**                          | **Cron Expression**     |
+Replace "expression" with examples from: [pkg.go.dev/github.com/robfig/cron](https://pkg.go.dev/github.com/robfig/cron) to suit your own cron needs,  
+| **description**                          | **expression**     |
 |------------------------------------------|-------------------------|
 | **Run Every Minute**                     | `@every 1m`             |
 | **Run Every Hour**                       | `@every 1h`             |
