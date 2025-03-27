@@ -1,8 +1,9 @@
 package mattilsynet:cronjob@0.0.1;
 
 interface cronjob {
-    cron-handler: func();
+  cron-handler: func();
 }
+
 world provider {
-    import cronjob;
+  import cronjob;
 }

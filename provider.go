@@ -10,20 +10,19 @@ import (
 
 type Handler struct {
 	provider *sdk.WasmcloudProvider
-	linkedTo map[string]map[string]string
 	cron     map[string]*cron.Cron
 }
 
 func New() Handler {
 	return Handler{
-		linkedTo: make(map[string]map[string]string),
-		cron:     make(map[string]*cron.Cron),
+		cron: make(map[string]*cron.Cron),
 	}
 }
 
 func (h *Handler) AddCronJob(target string, expression string) error {
 	cron := cron.New()
 	client := h.provider.OutgoingRpcClient(target)
+	h.provider.Logger.Info("Adding cron job for target: " + target)
 	_, err := cron.AddFunc(expression,
 		func() {
 			cronJobComponent.CronHandler(context.TODO(), client)
@@ -41,7 +40,9 @@ func (h *Handler) StartCronjob(target string) {
 }
 
 func (h *Handler) StopCronJob(target string) {
-	h.cron[target].Stop()
+	if h.cron[target] != nil {
+		h.cron[target].Stop()
+	}
 }
 
 func (h *Handler) RemoveCronJob(target string) {

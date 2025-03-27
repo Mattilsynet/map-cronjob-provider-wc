@@ -3,10 +3,12 @@
 package main
 
 import (
+	"errors"
 	"log"
 	"os"
 	"os/signal"
 	"slices"
+	"strings"
 	"syscall"
 
 	"go.wasmcloud.dev/provider"
@@ -62,10 +64,11 @@ func handleNewSourceLink(handler *Handler, link provider.InterfaceLinkDefinition
 	handler.provider.Logger.Info("Handling new source link", "link", link)
 	if !slices.Contains(link.Interfaces, "cron-handler") {
 		handler.provider.Logger.Error("Invalid source link", "error", "source link is not a cron handler")
+		interfacesJoined := strings.Join(link.Interfaces, ",")
+		return errors.New("the source link interfaces didn't contain 'cron-handler', got: " + interfacesJoined)
 	}
 
-	handler.linkedTo[link.Target] = link.TargetConfig
-	expression := link.TargetConfig["expression"]
+	expression := link.SourceConfig["expression"]
 	err := handler.AddCronJob(link.Target, expression)
 	if err != nil {
 		handler.provider.Logger.Error("Failed to add cron job", "error", err)
@@ -77,7 +80,6 @@ func handleNewSourceLink(handler *Handler, link provider.InterfaceLinkDefinition
 
 func handleDelSourceLinks(handler *Handler, link provider.InterfaceLinkDefinition) error {
 	handler.provider.Logger.Info("Handling del source link", "link", link)
-	delete(handler.linkedTo, link.SourceID)
 	handler.RemoveCronJob(link.Target)
 	return nil
 }
@@ -85,6 +87,5 @@ func handleDelSourceLinks(handler *Handler, link provider.InterfaceLinkDefinitio
 func handleShutdown(handler *Handler) error {
 	handler.provider.Logger.Info("Handling shutdown")
 	handler.Shutdown()
-	clear(handler.linkedTo)
 	return nil
 }

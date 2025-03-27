@@ -1,4 +1,5 @@
-cronjob
+cronjob*
 build/*
 bindings/*
 *.wasm
+map-cronjob-provider-wc*

@@ -21,7 +21,6 @@ spec:
       properties:
         #image: ghcr.io/mattilsynet/map-cronjob-provider-wc:v0.0.17
         image: file://./build/map-cronjob-provider-wc.par.gz
-        id: cronjob
       traits:
         - type: link
           properties:
@@ -29,8 +28,7 @@ spec:
             namespace: mattilsynet
             package: test
             interfaces: [cron-handler]
-            target_config:
+            source_config:
               - name: log-component-cron-expression
                 properties:
                   expression: "@every 2s"
-        
