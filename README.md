@@ -7,8 +7,8 @@ Uses library: `https://github.com/robfig/cron` to handle cron expressions.
 # Note
 There are two packages in this github repo:  
 
-1. github.com/mattilsynet/map-cronjob-provider-wc:v{m:m:p}  
-2. github.com/mattilsynet/cronjob:{m:m:p}  
+1. `github.com/mattilsynet/map-cronjob-provider-wc:v{m:m:p}`
+2. `github.com/mattilsynet/cronjob:{m:m:p}`  
 
 First is the provider you'll link to from your wadm  
 Second is the wit package `wash wit fetch` will use to fetch dependencies in your /wit/deps folder as part of your wash build command  
