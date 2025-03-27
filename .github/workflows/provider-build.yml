@@ -58,6 +58,24 @@ jobs:
         run: |
           [[ ! -f wadm.yaml ]] || wash app validate wadm.yaml
           [[ ! -f local.wadm.yaml ]] || wash app validate local.wadm.yaml
+      - name: Setup registry
+        env:
+          WASH_REG_USER: ${{ github.actor }}
+          WASH_REG_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+        shell: bash
+        run: |
+          cat << EOF > package_config.toml
+          [namespace_registries]
+          mattilsynet = "ghcr.io"
+
+          [registry."ghcr.io".oci]
+          auth = { username = "${WASH_REG_USER}", password = "${WASH_REG_PASSWORD}"}
+          EOF
+          echo "WASH_PACKAGE_CONFIG_FILE=$(realpath package_config.toml)" >> $GITHUB_ENV
+      - name: build wit
+        run: wash wit build
+      - name: publish wit
+        run: wash wit publish *.wasm
       - name: wash build provider
         shell: bash
         run: |
@@ -136,21 +154,3 @@ jobs:
           asset_path: ./${{ env.providername }}.tar.gz # Path to your file
           asset_name: ${{ env.providername }}
           asset_content_type: application/gzip
-      - name: Setup registry
-        env:
-          WASH_REG_USER: ${{ github.actor }}
-          WASH_REG_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-        shell: bash
-        run: |
-          cat << EOF > package_config.toml
-          [namespace_registries]
-          mattilsynet = "ghcr.io"
-
-          [registry."ghcr.io".oci]
-          auth = { username = "${WASH_REG_USER}", password = "${WASH_REG_PASSWORD}"}
-          EOF
-          echo "WASH_PACKAGE_CONFIG_FILE=$(realpath package_config.toml)" >> $GITHUB_ENV
-      - name: build wit
-        run: wash wit build
-      - name: publish wit
-        run: wash wit publish *.wasm
