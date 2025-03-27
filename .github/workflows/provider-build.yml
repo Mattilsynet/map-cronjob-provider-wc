@@ -72,10 +72,6 @@ jobs:
           auth = { username = "${WASH_REG_USER}", password = "${WASH_REG_PASSWORD}"}
           EOF
           echo "WASH_PACKAGE_CONFIG_FILE=$(realpath package_config.toml)" >> $GITHUB_ENV
-      - name: build wit
-        run: wash wit build
-      - name: publish wit
-        run: wash wit publish *.wasm
       - name: wash build provider
         shell: bash
         run: |
@@ -144,6 +140,10 @@ jobs:
           release_name: ${{ github.ref_name }}
           draft: false
           prerelease: false
+      - name: build wit
+        run: wash wit build
+      - name: publish wit
+        run: wash wit publish *.wasm
 
       - name: Upload Release Asset
         uses: actions/upload-release-asset@v1
