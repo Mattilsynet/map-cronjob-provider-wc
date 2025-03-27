@@ -5,13 +5,12 @@ Uses library: `https://github.com/robfig/cron` to handle cron expressions.
 > Disclaimer: This is WIP, use in your environment at your own risk.
 
 # Note
-There are two packages in this github repo:  
+There are [two packages](https://github.com/orgs/Mattilsynet/packages?repo_name=map-cronjob-provider-wc) in this github repo:  
+1. `map-cronjob-provider-wc:v{m:m:p}`
+2. `cronjob:{m:m:p}`  
 
-1. `github.com/mattilsynet/map-cronjob-provider-wc:v{m:m:p}`
-2. `github.com/mattilsynet/cronjob:{m:m:p}`  
-
-First is the provider you'll link to from your wadm  
-Second is the wit package `wash wit fetch` will use to fetch dependencies in your /wit/deps folder as part of your wash build command  
+First is the provider you'll link to from your Wadm manifest    
+Second is the Wit package `wash wit fetch` will use to fetch dependencies in your /wit/deps folder as part of your `wash build` command    
 
 # How to use the cronjob provider in your application
 
