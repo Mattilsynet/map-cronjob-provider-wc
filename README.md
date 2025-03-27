@@ -61,8 +61,15 @@ Add wkg config, if you haven't installed the tool `wkg` then look under "Require
 [namespace_registries]
 mattilsynet = "ghcr.io"
 ```
-3. Add `export mattilsynet:cronjob/cronjob@0.0.1;` to your `wit/world.wit`
-> [Click me](./wit/world.wit) for WIT example
+3. Add `export mattilsynet:cronjob/cronjob@0.0.1;` to your `wit/world.wit`, e.g.,  
+```WIT
+package mattilsynet:logger;
+
+world component {
+  include wasmcloud:component-go/imports@0.1.0;
+  export mattilsynet:cronjob/cronjob@0.0.1; # <-- look at me, I'm what you want!
+}
+```
 4. `wash build` your component (you'll get some error saying your compoonent hasn't implemented the import requirement)
 5. Add required code accordingly, look at [this code](./component/logger.go) for an example in Go.
 # Development
