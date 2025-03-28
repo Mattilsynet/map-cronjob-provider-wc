@@ -133,16 +133,6 @@ jobs:
       - name: Create tar.gz
         run: |
           tar -czf ${{ env.providername }}.tar.gz ./build/${{ env.providername }}.par.gz
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref_name }} # Tag that triggered the workflow
-          release_name: ${{ github.ref_name }}
-          draft: false
-          prerelease: false
       - name: build wit
         run: wash wit build
       - name: publish wit
