@@ -76,6 +76,7 @@ jobs:
         shell: bash
         run: |
           wash wit fetch
+        working-directory: component
       - name: wash build provider
         shell: bash
         run: |
