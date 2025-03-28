@@ -3,7 +3,7 @@ changelog:
     labels:
       - ignore-for-release
     authors:
-      - octocat
+      - team applikasjons-plattform
   categories:
     - title: Breaking Changes 🛠
       labels:

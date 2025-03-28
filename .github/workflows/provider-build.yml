@@ -148,4 +148,6 @@ jobs:
       - name: publish wit
         run: wash wit publish *.wasm
       - name: Release
-        uses: softprops/action-gh-release@v2
+        shell: bash
+        run: |
+          gh create ${{ github.ref_name}} --generate-notes --draft --verify-tag
