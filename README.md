@@ -72,7 +72,12 @@ world component {
 4. `wash build` your component (you'll get some error saying your compoonent hasn't implemented the import requirement)
 5. Add required code accordingly, look at [this code](./component/logger.go) for an example in Go.
 # Development
-If you'd like to test this provider together with a working component, then `git clone git@github.com:Mattilsynet/map-cronjob-provider-wc.git`, install requirements underneath and follow steps in "Quick start"
+If you'd like to test this provider together with a working component, then   
+```bash 
+git clone git@github.com:Mattilsynet/map-cronjob-provider-wc.git  
+```
+
+install requirements underneath and follow steps in "Quick start"
 
 ## Requires
 tinygo >= 0.33.0 (`go install github.com/tinygo-org/tinygo@latest`)  
