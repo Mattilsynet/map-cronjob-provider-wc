@@ -150,4 +150,4 @@ jobs:
       - name: Release
         shell: bash
         run: |
-          gh create ${{ github.ref_name}} --generate-notes --draft --verify-tag
+          gh release create ${{ github.ref_name}} --generate-notes --draft --verify-tag
