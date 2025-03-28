@@ -4,8 +4,6 @@ on:
   push:
     tags:
       - "v*"
-    branches:
-      - "master"
 jobs:
   wash-build:
     runs-on: ubuntu-latest
