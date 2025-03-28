@@ -66,7 +66,7 @@ package mattilsynet:logger;
 
 world component {
   include wasmcloud:component-go/imports@0.1.0;
-  export mattilsynet:cronjob/cronjob@0.0.1; # <-- look at me, I'm what you want!
+  export mattilsynet:cronjob/cronjob@0.0.1; // <-- look at me, I'm what you want!
 }
 ```
 4. `wash build` your component (you'll get some error saying your compoonent hasn't implemented the import requirement)
