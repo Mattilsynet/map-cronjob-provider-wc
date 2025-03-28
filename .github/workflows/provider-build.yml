@@ -79,14 +79,16 @@ jobs:
         shell: bash
         run: |
           wash build
-      - name: go crosscompile for (darmin, aarch64) aarch64-macos
+      - name: go crosscompile
         shell: bash
         run: |
-          GOOS=darwin GOARCH=arm64 go build -o darwin main.go provider.go
-      - name: wash par insert mac binary
+          GOOS=darwin GOARCH=arm64 go build -o darwin main.go provider.go  
+          GOOS=windows GOARCH=amd64 go build -o windows.exe main.go provider.go
+      - name: wash par insert binaries
         shell: bash
         run: |
-          wash par insert ./build/${{env.providername}}.par.gz --binary ./darwin --arch aarch64-macos
+          wash par insert ./build/${{env.providername}}.par.gz --binary ./darwin --arch aarch64-macos 
+          wash par insert ./build/${{env.providername}}.par.gz --binary ./windows.exe --arch x86_64-windows
       - name: wash build test-component
         shell: bash
         run: |
@@ -128,7 +130,10 @@ jobs:
           WASH_REG_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
         shell: bash
         run: |
-          wash push ghcr.io/${{ github.repository }}:${{ github.ref_name }} ${{ env.providername }}.par.gz --annotation org.opencontainers.image.source=${{github.server_url}}/${{ github.repository }} --annotation org.opencontainers.image.description="supports:\n x86_64-linux\naarch64-macos"
+          wash push ghcr.io/${{ github.repository }}:${{ github.ref_name }} ${{ env.providername }}.par.gz --annotation org.opencontainers.image.source=${{github.server_url}}/${{ github.repository }} --annotation org.opencontainers.image.description="Supports:   
+          - **x86_64-linux**   
+          - **aarch64-macos**"
+          - **x86_64-windows**
         working-directory: build
       - name: Create tar.gz
         run: |
