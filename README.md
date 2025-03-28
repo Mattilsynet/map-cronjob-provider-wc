@@ -88,13 +88,13 @@ wkg (`cargo install wkg`)
 4. `wash build`  
 5. Terminal 1: `wash up` 
 6. Terminal 2: In root of project: `wash app deploy local.wadm.yaml --replace`  
-7. Terminal 2: `watch wash app status cronjob-logger` # to view progress of cronjob-logger  
-
-## Problems/Questions?
-If you have any issues with the setup or questions, please don't hesitate to [create an issue](https://github.com/Mattilsynet/map-cronjob-provider-wc/issues)
-
+7. Terminal 2: `watch wash app status cronjob-logger` # to view progress of cronjob-logger   
 ### Expected output:
 #### Every two seconds (without altering local.wadm.yaml)
 2024-11-14T08:40:51.990755Z  INFO log: wasmcloud_host::wasmbus::handler: Cronjob handler called component_id="cronjob_logger-log_component" level=Level::Info context="cronjob-handler"
 2024-11-14T08:40:53.989890Z  INFO log: wasmcloud_host::wasmbus::handler: Cronjob handler called component_id="cronjob_logger-log_component" level=Level::Info context="cronjob-handler"
+
+## Problems/Questions?
+If you have any issues with the setup or questions, please don't hesitate to [create an issue](https://github.com/Mattilsynet/map-cronjob-provider-wc/issues)
+
 
