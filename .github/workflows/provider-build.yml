@@ -147,13 +147,5 @@ jobs:
         run: wash wit build
       - name: publish wit
         run: wash wit publish *.wasm
-
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./${{ env.providername }}.tar.gz # Path to your file
-          asset_name: ${{ env.providername }}
-          asset_content_type: application/gzip
+      - name: Release
+        uses: softprops/action-gh-release@v2
