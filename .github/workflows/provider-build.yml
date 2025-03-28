@@ -132,8 +132,8 @@ jobs:
         run: |
           wash push ghcr.io/${{ github.repository }}:${{ github.ref_name }} ${{ env.providername }}.par.gz --annotation org.opencontainers.image.source=${{github.server_url}}/${{ github.repository }} --annotation org.opencontainers.image.description="Supports:   
           - **x86_64-linux**   
-          - **aarch64-macos**"
-          - **x86_64-windows**
+          - **aarch64-macos**
+          - **x86_64-windows**"
         working-directory: build
       - name: Create tar.gz
         run: |
