@@ -21,7 +21,7 @@ Add the yaml-snippet underneath to your `wadm.yaml` or check out full example in
 - name: cronjob
       type: capability
       properties:
-        image: ghcr.io/mattilsynet/map-cronjob-provider-wc:v0.0.17
+        image: ghcr.io/mattilsynet/map-cronjob-provider-wc:v{m.m.p}
       traits:
         - type: link
           properties:
