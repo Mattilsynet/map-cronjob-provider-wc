@@ -10,7 +10,7 @@ spec:
     - name: log-component
       type: component
       properties:
-        image: ghcr.io/mattilsynet/map-cronjob-provider-wc:comp-test
+        image: file://./component/build/logger-component_s.wasm
       traits:
         - type: spreadscaler
           properties:

@@ -67,7 +67,6 @@ func handleNewSourceLink(handler *Handler, link provider.InterfaceLinkDefinition
 		interfacesJoined := strings.Join(link.Interfaces, ",")
 		return errors.New("the source link interfaces didn't contain 'cron-handler', got: " + interfacesJoined)
 	}
-
 	expression := link.SourceConfig["expression"]
 	err := handler.AddCronJob(link.Target, expression)
 	if err != nil {
